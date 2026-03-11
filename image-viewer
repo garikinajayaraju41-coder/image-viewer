@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Image Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #project-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="py-16 px-4 text-center">
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Portfolio Explorer</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Click any collection to explore multiple perspectives and detailed captures of the subject.</p>
+    </header>
+
+    <!-- Main Gallery Grid -->
+    <main class="max-w-7xl mx-auto px-4 pb-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            
+            <!-- Collection 1: Mountains -->
+            <div class="gallery-item relative group shadow-xl" onclick="openProject('mountains')">
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="Mountains" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h3 class="text-white text-xl font-bold">Alpine Peaks</h3>
+                    <p class="text-gray-200 text-sm">4 Photos • Explore Collection</p>
+                </div>
+            </div>
+
+            <!-- Collection 2: Forest -->
+            <div class="gallery-item relative group shadow-xl" onclick="openProject('forest')">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" alt="Forest" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h3 class="text-white text-xl font-bold">Deep Forest</h3>
+                    <p class="text-gray-200 text-sm">3 Photos • Explore Collection</p>
+                </div>
+            </div>
+
+            <!-- Collection 3: Ocean -->
+            <div class="gallery-item relative group shadow-xl" onclick="openProject('ocean')">
+                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Ocean" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h3 class="text-white text-xl font-bold">Silent Waters</h3>
+                    <p class="text-gray-200 text-sm">3 Photos • Explore Collection</p>
+                </div>
+            </div>
+
+            <!-- Collection 4: Urban/Architecture (NEW) -->
+            <div class="gallery-item relative group shadow-xl" onclick="openProject('urban')">
+                <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80" alt="Urban" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h3 class="text-white text-xl font-bold">Urban Geometry</h3>
+                    <p class="text-gray-200 text-sm">3 Photos • Explore Collection</p>
+                </div>
+            </div>
+
+            <!-- Collection 5: Wildlife (NEW) -->
+            <div class="gallery-item relative group shadow-xl" onclick="openProject('wildlife')">
+                <img src="https://images.unsplash.com/photo-1543946207-39bd91e70ca7?auto=format&fit=crop&w=800&q=80" alt="Wildlife" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h3 class="text-white text-xl font-bold">Wildlife Portraits</h3>
+                    <p class="text-gray-200 text-sm">3 Photos • Explore Collection</p>
+                </div>
+            </div>
+
+            <!-- Collection 6: Desert (NEW) -->
+            <div class="gallery-item relative group shadow-xl" onclick="openProject('desert')">
+                <img src="https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&w=800&q=80" alt="Desert" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h3 class="text-white text-xl font-bold">Arid Sands</h3>
+                    <p class="text-gray-200 text-sm">3 Photos • Explore Collection</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Project Overlay -->
+    <div id="project-overlay" class="animate-in fade-in duration-300">
+        <div class="max-w-5xl mx-auto px-6 py-12">
+            <!-- Close Button & Nav -->
+            <nav class="flex justify-between items-center mb-12">
+                <button onclick="closeProject()" class="flex items-center text-gray-500 hover:text-black transition-colors font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Gallery
+                </button>
+                <div id="project-counter" class="text-sm font-mono text-gray-400 uppercase tracking-widest"></div>
+            </nav>
+
+            <!-- Project Content -->
+            <div id="project-header" class="mb-12">
+                <h2 id="project-title" class="text-4xl font-bold text-gray-900 mb-4"></h2>
+                <p id="project-desc" class="text-xl text-gray-600 leading-relaxed"></p>
+            </div>
+
+            <!-- Image List -->
+            <div id="project-images" class="space-y-12">
+                <!-- Images injected here by JS -->
+            </div>
+
+            <footer class="mt-20 pt-10 border-t border-gray-100 text-center">
+                <button onclick="closeProject()" class="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all font-semibold">
+                    Return to Gallery
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const projectData = {
+            mountains: {
+                title: "Alpine Peaks",
+                desc: "A journey through the high altitude wilderness, capturing the interplay of light and granite.",
+                images: [
+                    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1434394354979-a235cd36269d?auto=format&fit=crop&w=1200"
+                ]
+            },
+            forest: {
+                title: "Deep Forest",
+                desc: "Exploring the dense undergrowth and the rhythmic patterns of ancient woodland.",
+                images: [
+                    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1511497584788-8767fe7718f0?auto=format&fit=crop&w=1200"
+                ]
+            },
+            ocean: {
+                title: "Silent Waters",
+                desc: "Minimalist captures of the horizon where the sky meets the infinite blue.",
+                images: [
+                    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1439405326854-01517724644b?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1505118380757-91f5f45d8de4?auto=format&fit=crop&w=1200"
+                ]
+            },
+            urban: {
+                title: "Urban Geometry",
+                desc: "The sharp lines and modern aesthetics of city architecture across the globe.",
+                images: [
+                    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1470723710355-95304d8aece4?auto=format&fit=crop&w=1200"
+                ]
+            },
+            wildlife: {
+                title: "Wildlife Portraits",
+                desc: "Intimate moments with the world's most majestic creatures in their natural habitat.",
+                images: [
+                    "https://images.unsplash.com/photo-1543946207-39bd91e70ca7?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1564349683136-77e08bef1ed1?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1534188753412-b89c0c2f8a1f?auto=format&fit=crop&w=1200"
+                ]
+            },
+            desert: {
+                title: "Arid Sands",
+                desc: "Tracing the curves of shifting dunes and the vast stillness of the desert.",
+                images: [
+                    "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1200",
+                    "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1200"
+                ]
+            }
+        };
+
+        const overlay = document.getElementById('project-overlay');
+        const imgContainer = document.getElementById('project-images');
+        const titleEl = document.getElementById('project-title');
+        const descEl = document.getElementById('project-desc');
+        const counterEl = document.getElementById('project-counter');
+
+        function openProject(id) {
+            const data = projectData[id];
+            if (!data) return;
+
+            titleEl.textContent = data.title;
+            descEl.textContent = data.desc;
+            counterEl.textContent = `Collection / ${id}`;
+
+            imgContainer.innerHTML = '';
+            data.images.forEach((src, index) => {
+                const imgWrap = document.createElement('div');
+                imgWrap.className = 'overflow-hidden rounded-2xl shadow-sm bg-gray-100';
+                imgWrap.innerHTML = `<img src="${src}" alt="Gallery image ${index + 1}" class="w-full h-auto block opacity-0 transition-opacity duration-700" onload="this.classList.remove('opacity-0')">`;
+                imgContainer.appendChild(imgWrap);
+            });
+
+            overlay.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            overlay.scrollTop = 0;
+        }
+
+        function closeProject() {
+            overlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProject();
+        });
+    </script>
+</body>
+</html>
